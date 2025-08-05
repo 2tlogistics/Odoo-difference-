@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Community vs Enterprise</title>
+    <style>
+        :root {
+            --primary: #714B67;
+            --secondary: #FF9A56;
+            --accent: #00A0B0;
+            --light: #F5F5F5;
+            --dark: #2E2E2E;
+            --community: #5D9CEC;
+            --enterprise: #ED5565;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: pulse 8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .comparison-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card.community {
+            border-top: 5px solid var(--community);
+        }
+
+        .card.enterprise {
+            border-top: 5px solid var(--enterprise);
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .card.community h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--community);
+            animation: underlineGrow 1s ease-out 0.5s both;
+        }
+
+        .card.enterprise h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--enterprise);
+            animation: underlineGrow 1s ease-out 0.7s both;
+        }
+
+        @keyframes underlineGrow {
+            from { width: 0; }
+            to { width: 50px; }
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .feature-item:nth-child(1) { animation-delay: 0.5s; }
+        .feature-item:nth-child(2) { animation-delay: 0.7s; }
+        .feature-item:nth-child(3) { animation-delay: 0.9s; }
+        .feature-item:nth-child(4) { animation-delay: 1.1s; }
+        .feature-item:nth-child(5) { animation-delay: 1.3s; }
+
+        .icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .community .icon {
+            background-color: rgba(93, 156, 236, 0.2);
+            color: var(--community);
+        }
+
+        .enterprise .icon {
+            background-color: rgba(237, 85, 101, 0.2);
+            color: var(--enterprise);
+        }
+
+        .price-tag {
+            background: var(--secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 1rem;
+            animation: pulsePrice 2s infinite;
+        }
+
+        @keyframes pulsePrice {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conclusion::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            background-size: cover;
+        }
+
+        .conclusion h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .choose-option {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .option {
+            background: white;
+            color: var(--dark);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .option h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-section {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Efectos de movimiento adicionales */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .rotate {
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Elementos decorativos */
+        .decorative-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            background: var(--community);
+            top: -50px;
+            right: -50px;
+            animation: rotate 20s linear infinite;
+        }
+
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--enterprise);
+            bottom: -100px;
+            left: -100px;
+            animation: rotate 25s linear infinite reverse;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="decorative-circle circle-1"></div>
+        <div class="decorative-circle circle-2"></div>
+        <div class="container">
+            <h1>Odoo Community vs Enterprise</h1>
+            <p class="subtitle">Descubre las diferencias clave entre las versiones gratuita y de pago de Odoo</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="comparison-section">
+            <div class="card community">
+                <h2>Odoo Community</h2>
+                <div class="price-tag floating">GRATUITO</div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="icon">✓</div>
+                        <div>
+                            <strong>Licencia LGPLv3</strong> - Código abierto y gratuito
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">✓</div>
+                        <div>
+                            <strong>Módulos básicos</strong> - CRM, Ventas, Inventario, Contabilidad
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">✓</div>
+                        <div>
+                            <strong>Personalización limitada</strong> - Requiere conocimientos técnicos
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">✓</div>
+                        <div>
+                            <strong>Soporte comunitario</strong> - Foros y colaboradores
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">✓</div>
+                        <div>
+                            <strong>Actualizaciones manuales</strong> - Mantenimiento propio
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card enterprise">
+                <h2>Odoo Enterprise</h2>
+                <div class="price-tag floating">DESDE $24.90/usuario/mes</div>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="icon">★</div>
+                        <div>
+                            <strong>Licencia comercial</strong> - Pago anual por usuario
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">★</div>
+                        <div>
+                            <strong>Módulos avanzados</strong> - Studio, Marketing Automation, BI
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">★</div>
+                        <div>
+                            <strong>Interfaz mejorada</strong> - Diseño moderno y adaptable
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">★</div>
+                        <div>
+                            <strong>Soporte oficial</strong> - Prioridad por correo, chat y teléfono
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="icon">★</div>
+                        <div>
+                            <strong>Actualizaciones automáticas</strong> - Sin preocupaciones
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            <h2>¿Cuál elegir para tu negocio?</h2>
+            <p>La decisión depende de tus necesidades específicas, presupuesto y capacidad técnica</p>
+            
+            <div class="choose-option">
+                <div class="option">
+                    <h3>Elige Odoo Community si:</h3>
+                    <ul>
+                        <li>Tienes un presupuesto limitado</li>
+                        <li>Puedes invertir en desarrollo externo</li>
+                        <li>Necesitas solo funcionalidades básicas</li>
+                    </ul>
+                </div>
+                
+                <div class="option">
+                    <h3>Elige Odoo Enterprise si:</h3>
+                    <ul>
+                        <li>Requieres funciones avanzadas</li>
+                        <li>Necesitas soporte oficial</li>
+                        <li>Buscas una solución lista para crecer</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 Comparativa Odoo Community vs Enterprise | Diseño interactivo con HTML/CSS</p>
+    </footer>
+
+    <script>
+        // Pequeño script para añadir más interacción
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-15px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(-10px)';
+                });
+            });
+            
+            // Efecto de aparición gradual al hacer scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.feature-item').forEach(item => {
+                item.style.opacity = 0;
+                item.style.transform = 'translateY(20px)';
+                item.style.transition = 'all 0.5s ease-out';
+                observer.observe(item);
+            });
+        });
+    </script>
+</body>
+  </html>
